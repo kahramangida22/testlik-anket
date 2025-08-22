@@ -1,0 +1,129 @@
+/* Genel Gövde */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f9f9f9;
+  color: #333;
+}
+
+/* Başlıklar */
+h1, h2 {
+  text-align: center;
+  margin: 20px 0 10px;
+}
+
+p {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* Butonlar */
+.butonlar-bolumu {
+  background: linear-gradient(to right, #e3f2fd, #fce4ec);
+  padding: 30px 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.butonlar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.buton {
+  text-decoration: none;
+  font-size: 16px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.buton:hover {
+  transform: scale(1.05);
+}
+
+.buton.mavi { background: #2196F3; }
+.buton.yesil { background: #4CAF50; }
+.buton.sari { background: #FFC107; }
+
+/* Anketler */
+.ana-icerik {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: auto;
+  padding: 10px;
+  gap: 10px;
+}
+
+.anketler-bolumu {
+  flex: 1;
+  min-width: 300px;
+  padding: 0 10px;
+}
+
+.anket-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.anket-kart {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.anket-kart:hover {
+  transform: scale(1.02);
+}
+
+.anket-kart img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+
+.anket-kart h3 {
+  font-size: 18px;
+  margin: 10px;
+}
+
+.anket-kart p {
+  font-size: 14px;
+  margin: 0 10px 10px;
+  color: #666;
+}
+
+/* Reklam Alanları */
+.reklam-alani {
+  text-align: center;
+  margin: 10px 0;
+}
+
+.reklam-alani.sol,
+.reklam-alani.sag {
+  display: none; /* Mobilde gizlenir */
+}
+
+/* Geniş Ekranlar için */
+@media (min-width: 1024px) {
+  .reklam-alani.sol,
+  .reklam-alani.sag {
+    display: block;
+    width: 160px;
+  }
+
+  .anketler-bolumu {
+    flex: 1;
+    padding: 0 20px;
+  }
+}
