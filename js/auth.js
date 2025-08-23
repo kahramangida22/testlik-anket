@@ -6,7 +6,7 @@ import {
   setPersistence, browserLocalPersistence
 } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js';
 
-/* Firebase hazır olana kadar bekle */
+/** Firebase hazır olana kadar bekle */
 function waitForFirebaseAuth() {
   return new Promise((resolve) => {
     (function check() {
@@ -24,7 +24,8 @@ function paint(btn, user) {
 
 function showError(e) {
   console.warn('Auth error:', e);
-  alert('Giriş sırasında hata: ' + (e?.message || e));
+  const msg = e?.message || e?.code || e || 'Bilinmeyen hata';
+  alert('Giriş sırasında hata: ' + msg);
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -33,11 +34,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const auth = await waitForFirebaseAuth();
 
+  // Oturum kalıcı (tarayıcı kapansa da)
   try { await setPersistence(auth, browserLocalPersistence); } catch {}
 
+  // UI senkronu
   onAuthStateChanged(auth, (user) => paint(btn, user));
   paint(btn, auth.currentUser);
 
+  // Giriş/Çıkış davranışı
   btn.addEventListener('click', async () => {
     const user = auth.currentUser;
     if (user) { await signOut(auth); return; }
@@ -48,6 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       await signInWithPopup(auth, provider);
     } catch (e) {
+      // Popup engellenirse redirect deneyelim
       if (e?.code === 'auth/popup-blocked' || e?.code === 'auth/cancelled-popup-request') {
         try { await signInWithRedirect(auth, provider); }
         catch (e2) { showError(e2); }
