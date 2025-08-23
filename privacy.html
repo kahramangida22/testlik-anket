@@ -1,40 +1,156 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gizlilik Politikası | Testlik</title>
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://testlik.com/privacy.html">
-<link rel="stylesheet" href="/css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Gizlilik Politikası | Testlik</title>
+  <meta name="description" content="Testlik gizlilik politikası: çerezler, reklamlar (AdSense), Firebase Auth ve Firestore verileri hakkında bilgi." />
+  <link rel="canonical" href="https://testlik.com/privacy.html" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="Gizlilik Politikası | Testlik" />
+  <meta property="og:description" content="Testlik gizlilik politikası ve veri kullanımı." />
+  <meta property="og:image" content="assets/og-banner.jpg" />
+  <link rel="icon" href="assets/logo.png" />
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  <!-- Firebase boot (ESM) - üstteki Giriş/Çıkış için -->
+  <script type="module">
+    import { initializeApp }   from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js';
+    import { getAnalytics }    from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js';
+    import { getAuth }         from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js';
+    import { getFirestore }    from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDcneigub2eAJjTrfrkiETuLgy5ule8L6s",
+      authDomain: "testlik.firebaseapp.com",
+      projectId: "testlik",
+      storageBucket: "testlik.firebasestorage.app",
+      messagingSenderId: "668524500496",
+      appId: "1:668524500496:web:579bb4fc5990c87afedc95",
+      measurementId: "G-8ZEYBJCV3T"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    window.fb = {
+      app,
+      analytics: getAnalytics(app),
+      auth: getAuth(app),
+      db: getFirestore(app)
+    };
+  </script>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .doc-wrap{
+      max-width: 920px; margin: 0 auto;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border: 1px solid var(--border); border-radius: 18px;
+      padding: 18px; box-shadow: var(--shadow-1);
+    }
+    .doc-wrap h1{ margin: 6px 0 12px; }
+    .doc-wrap h2{ margin: 16px 0 8px; font-size:18px; }
+    .doc-wrap p, .doc-wrap li{ color: var(--muted-2); line-height: 1.65; }
+    .doc-wrap a{ color: var(--muted); font-weight: 800; text-decoration: none; }
+    .doc-wrap a:hover{ color:#fff; text-decoration: underline; }
+  </style>
 </head>
 <body>
-<header class="navbar">
-<a class="logo" href="/">🗳️ Testlik</a>
-<nav class="topnav">
-<a href="/">Anketler</a>
-<a href="/terms.html">Kullanım Şartları</a>
-<a href="/contact.html">İletişim</a>
-</nav>
-<button id="authBtn" class="btn ghost">Giriş</button>
-</header>
+  <!-- NAVBAR -->
+  <header class="navbar glass">
+    <a class="logo" href="index.html"><span class="logo-emoji">🗳️</span> <span class="logo-text">Testlik</span></a>
+    <nav class="topnav">
+      <a href="index.html">Anketler</a>
+      <a href="puan.html">Puanlarım</a>
+      <a href="oduller.html">Ödüller</a>
+    </nav>
+    <button id="authBtn" class="btn ghost">Giriş</button>
+  </header>
 
+  <!-- Üst Reklam -->
+  <div class="ad ad-top">
+    <ins class="adsbygoogle" style="display:block;text-align:center"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="1234567890"
+         data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
 
-<main class="wrap">
-<section class="grid-area" style="max-width:860px;margin:0 auto;">
-<h1>Gizlilik Politikası</h1>
-<p>Testlik, kullanıcı deneyimini geliştirmek ve reklamları kişiselleştirmek için çerezler kullanır. Çerez tercihlerinizi tarayıcı ayarlarınızdan yönetebilirsiniz.</p>
-<h2>Toplanan Veriler</h2>
-<ul>
-<li>Site kullanımı ve analiz verileri</li>
-<li>Reklam kişiselleştirme verileri (Google tarafından yönetilir)</li>
-</ul>
-<h2>Üçüncü Taraf</h2>
-<p>Google AdSense reklamları gösterilmektedir. Ayrıntılar için <a href="https://policies.google.com/technologies/ads?hl=tr" rel="nofollow noopener" target="_blank">Google Reklam Politikaları</a>.</p>
-</section>
-</main>
+  <main class="wrap" role="main">
+    <section class="grid-area" style="grid-column:1 / -1;">
+      <div class="doc-wrap">
+        <h1>Gizlilik Politikası</h1>
+        <p>Testlik olarak kullanıcı deneyimini geliştirmek, içerikleri ve reklamları iyileştirmek için bazı verileri işleriz. Bu belge, hangi verileri neden ve nasıl kullandığımızı açıklar.</p>
 
+        <h2>Topladığımız Veriler</h2>
+        <ul>
+          <li><strong>Kullanım verileri:</strong> Sayfa görüntüleme, tıklamalar gibi anonimleştirilmiş metrikler.</li>
+          <li><strong>Çerezler ve benzeri teknolojiler:</strong> Site işlevselliği, performans ve reklam gösterimi için.</li>
+          <li><strong>Hesap bilgileri (isteğe bağlı):</strong> Google ile giriş yaptığınızda ad, profil fotoğrafı, e-posta (Firebase Authentication tarafından sağlanır).</li>
+          <li><strong>Puan ve oy kayıtları:</strong> Hangi ankette puan kazandığınız; toplam puanınız (Cloud Firestore’da kullanıcı hesabınıza ait olarak tutulur).</li>
+        </ul>
 
-<script src="/js/auth.js"></script>
+        <h2>Verilerin Kullanım Amaçları</h2>
+        <ul>
+          <li>Hesap girişi (Firebase Auth) ve puanlama sistemi (Firestore) gibi temel işlevlerin çalışması.</li>
+          <li>Sitenin performansını ve güvenliğini artırmak.</li>
+          <li>Google AdSense aracılığıyla reklamların gösterimi ve raporlanması.</li>
+        </ul>
+
+        <h2>Reklamlar (Google AdSense)</h2>
+        <p>Sitede Google AdSense reklamları yer alır. Google, çerezler ve/veya benzersiz tanımlayıcılar kullanabilir. Ayrıntılar ve tercih yönetimi için <a href="https://policies.google.com/technologies/ads?hl=tr" rel="nofollow noopener" target="_blank">Google Reklam Teknolojileri</a> sayfasını inceleyin. Reklam tıklamasına teşvik etmeyiz.</p>
+
+        <h2>Çerezler ve Tercihler</h2>
+        <p>Tarayıcı ayarlarınızdan çerezleri yönetebilir veya silebilirsiniz. Çerezleri kapatmanız bazı işlevlerin çalışmasını etkileyebilir.</p>
+
+        <h2>Üçüncü Taraflar</h2>
+        <ul>
+          <li><strong>Firebase (Google):</strong> Kimlik doğrulama ve veritabanı. Firebase’in veri işleme koşulları Google tarafından belirlenir.</li>
+          <li><strong>Google AdSense:</strong> Reklam gösterimi ve ölçümü.</li>
+        </ul>
+
+        <h2>Veri Saklama</h2>
+        <p>Hesabınız ve puan kayıtlarınız, hesabınızı sildiğinizde veya talep ettiğinizde silinebilir. Yasal yükümlülükler gereği belirli veriler daha uzun süre saklanabilir.</p>
+
+        <h2>Haklarınız</h2>
+        <ul>
+          <li>Hakkınızda tutulan verilere erişme, düzeltme veya silme talebinde bulunma.</li>
+          <li>İşlemeye itiraz etme veya kısıtlama isteme.</li>
+        </ul>
+
+        <h2>İletişim</h2>
+        <p>Her türlü soru ve talep için <a href="mailto:iletisim@testlik.com">iletisim@testlik.com</a> adresinden bize ulaşabilirsiniz.</p>
+
+        <h2>Güncellemeler</h2>
+        <p>Bu politika zaman zaman güncellenebilir. Değişiklikler bu sayfada yayınlanır.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Alt Reklam + Footer -->
+  <footer class="footer">
+    <div class="ad ad-footer">
+      <ins class="adsbygoogle" style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+           data-ad-slot="3456789012"
+           data-ad-format="link"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    <nav class="legal">
+      <a href="privacy.html">Gizlilik</a><span>·</span>
+      <a href="terms.html">Kullanım Şartları</a><span>·</span>
+      <a href="contact.html">İletişim</a>
+    </nav>
+    <small>© <span id="yil"></span> Testlik</small>
+  </footer>
+
+  <!-- Auth (Giriş/Çıkış) -->
+  <script type="module" src="js/auth.js"></script>
+
+  <script>
+    const y = document.getElementById('yil'); if (y) y.textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
