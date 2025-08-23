@@ -1,0 +1,169 @@
+/* ===========================
+   Testlik – Anket Sayfaları Teması
+   (yalnızca anketlerde kullan)
+   =========================== */
+
+:root{
+  /* style.css değişkenlerini kullanıyoruz */
+  --bg: #0b1220;
+  --surface: #0f172a;
+  --surface-2: #111936;
+  --text: #e7eaf3;
+  --muted: #9fb3ff;
+  --muted-2: #cbd5e1;
+  --accent: #7cc1ff;
+  --accent-2: #22d3ee;
+  --border: rgba(255,255,255,.08);
+  --ring: rgba(124,193,255,.45);
+  --shadow-1: 0 8px 28px rgba(0,0,0,.3);
+  --shadow-2: 0 12px 36px rgba(0,0,0,.36);
+}
+
+/* sayfa sarmalı */
+.poll-page{
+  color: var(--text);
+}
+
+/* üst bilgi */
+.poll-title{
+  font-size: clamp(24px, 3.5vw, 32px);
+  margin: 10px 0 6px;
+  letter-spacing: .2px;
+  font-weight: 900;
+  color: #fff;
+}
+.poll-desc{
+  color: var(--muted);
+  margin: 0 0 16px;
+}
+
+/* anket kartı (glass + glow) */
+.poll-card{
+  position: relative;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow-1);
+  padding: 18px;
+  overflow: hidden;
+}
+.poll-card::before{
+  content:"";
+  position:absolute; inset:-20% -10% auto -10%; height:50%;
+  background: radial-gradient(closest-side, rgba(124,193,255,.18), transparent);
+  filter: blur(46px); opacity:.6; pointer-events:none;
+  animation: floaty 9s ease-in-out infinite alternate;
+}
+@keyframes floaty{
+  from{ transform: translateY(-10px) }
+  to  { transform: translateY(10px) }
+}
+
+/* seçenekler */
+.poll-options{
+  display: grid;
+  gap: 10px;
+  margin: 12px 0 18px;
+}
+
+/* büyük tıklanabilir seçenek */
+.option{
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease, background .12s ease, filter .12s ease;
+  will-change: transform, box-shadow, background, border-color, filter;
+}
+.option:hover{ transform: translateY(-1px); }
+.option:active{ transform: translateY(0); }
+
+/* özelleştirilmiş radio */
+.option input{
+  appearance:none; -webkit-appearance:none; -moz-appearance:none;
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 2px solid var(--muted);
+  display: inline-block; position: relative;
+  transition: border-color .12s ease, background .12s ease, box-shadow .12s ease;
+}
+.option input:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 8px var(--ring);
+}
+.option input:checked{
+  border-color: transparent;
+  background:
+    radial-gradient(circle at center, var(--accent) 45%, transparent 46%) content-box,
+    linear-gradient(var(--accent), var(--accent));
+}
+
+/* metin */
+.option-label{
+  font-weight: 800; color: #fff; letter-spacing:.1px;
+}
+
+/* seçili iken kartı parlat */
+.option:has(input:checked){
+  border-color: rgba(124,193,255,.45);
+  box-shadow: 0 0 0 3px rgba(124,193,255,.16);
+  background: linear-gradient(180deg, rgba(124,193,255,.10), rgba(255,255,255,.02));
+}
+
+/* ripple efekti (saf CSS pseudoelement) */
+.option{
+  position: relative; overflow: hidden;
+}
+.option::after{
+  content:""; position:absolute; inset:auto; top:50%; left:50%;
+  width:0; height:0; border-radius:50%;
+  background: radial-gradient(closest-side, rgba(124,193,255,.18), transparent);
+  transform: translate(-50%,-50%);
+  opacity:0; pointer-events:none;
+  transition: width .35s ease, height .35s ease, opacity .35s ease;
+}
+.option:active::after{
+  width: 260px; height: 260px; opacity: 1;
+}
+
+/* CTA alanı */
+.cta-row{
+  display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+}
+.cta-sticky{
+  position: sticky; bottom: 8px; z-index: 10;
+  margin-top: 12px;
+  background: transparent;
+}
+.cta-sticky .btn.big{ width: 100%; }
+
+.helper{
+  font-size: 13px; color: var(--muted); margin-top: 6px;
+}
+
+/* çok sorulu anketler için basit ilerleme (opsiyonel) */
+.progress{
+  height: 10px; border-radius: 999px;
+  background: rgba(255,255,255,.06); border:1px solid var(--border);
+  overflow: hidden; margin: 8px 0 14px;
+}
+.progress > i{
+  display:block; height:100%; width:0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  box-shadow: 0 6px 24px rgba(34,211,238,.25) inset;
+  transition: width .35s ease;
+}
+
+/* reklam aralığı */
+.ad{ margin: 16px auto; }
+
+/* küçük ekran */
+@media (max-width: 420px){
+  .poll-title{ font-size: 22px; }
+}
+
+/* iOS güvenli alan */
+@supports(padding:max(0px)){
+  .cta-sticky .btn.big{ padding-bottom: max(16px, env(safe-area-inset-bottom)); }
+}
