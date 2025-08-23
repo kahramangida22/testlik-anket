@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Puanım | Testlik</title>
+<meta name="description" content="Toplam puanını görüntüle. Daha çok anket çözerek puan kazan!">
+<link rel="canonical" href="https://testlik.com/puan.html">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="navbar">
+<a class="logo" href="/">🗳️ Testlik</a>
+<nav class="topnav">
+<a href="/">Anketler</a>
+<a href="/oduller.html">Ödüller</a>
+</nav>
+<button id="authBtn" class="btn ghost">Giriş</button>
+</header>
+
+
+<div class="ad ad-top">
+<ins class="adsbygoogle" style="display:block;text-align:center" data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+
+<main class="wrap">
+<section class="grid-area" style="max-width:720px;margin:0 auto;text-align:center;">
+<h1>Toplam Puanın</h1>
+<div id="puanAlani" style="font-size:42px;color:#2e7d32;font-weight:800;">0</div>
+<p>Daha fazla anket çözerek puanlarını arttır.</p>
+<button class="btn ghost" onclick="puanSifirla()">Puanları Sıfırla (test)</button>
+
+
+<div class="ad">
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="4567890123" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+</section>
+</main>
+
+
+<footer class="footer">
+<div class="ad ad-footer">
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="3456789012" data-ad-format="link" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+</footer>
+
+
+<script src="/js/auth.js"></script>
+<script src="/js/puan.js"></script>
+<script>document.getElementById('puanAlani').textContent = puanGetir();</script>
+</body>
+</html>
