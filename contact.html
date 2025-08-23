@@ -1,32 +1,192 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>İletişim | Testlik</title>
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://testlik.com/contact.html">
-<link rel="stylesheet" href="/css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>İletişim | Testlik</title>
+  <meta name="description" content="Bize ulaşın: öneri, geri bildirim ve iş birlikleri için iletişim sayfası." />
+  <link rel="canonical" href="https://testlik.com/contact.html" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="İletişim | Testlik" />
+  <meta property="og:description" content="Öneri ve geri bildirimlerinizi bekliyoruz." />
+  <meta property="og:image" content="assets/og-banner.jpg" />
+  <link rel="icon" href="assets/logo.png" />
+
+  <!-- Organization JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"Testlik",
+    "url":"https://testlik.com",
+    "email":"iletisim@testlik.com",
+    "logo":"https://testlik.com/assets/logo.png",
+    "sameAs":[]
+  }
+  </script>
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  <!-- Firebase boot (ESM) -->
+  <script type="module">
+    import { initializeApp }   from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js';
+    import { getAnalytics }    from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js';
+    import { getAuth }         from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js';
+    import { getFirestore }    from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDcneigub2eAJjTrfrkiETuLgy5ule8L6s",
+      authDomain: "testlik.firebaseapp.com",
+      projectId: "testlik",
+      storageBucket: "testlik.firebasestorage.app",
+      messagingSenderId: "668524500496",
+      appId: "1:668524500496:web:579bb4fc5990c87afedc95",
+      measurementId: "G-8ZEYBJCV3T"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    window.fb = {
+      app,
+      analytics: getAnalytics(app),
+      auth: getAuth(app),
+      db: getFirestore(app)
+    };
+  </script>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .contact-wrap{
+      max-width: 920px; margin: 0 auto;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border: 1px solid var(--border); border-radius: 18px;
+      padding: 18px; box-shadow: var(--shadow-1);
+    }
+    .c-grid{ display:grid; grid-template-columns: 1fr; gap:14px; }
+    @media (min-width: 840px){ .c-grid{ grid-template-columns: 1.1fr .9fr; } }
+    .c-card{
+      background: rgba(255,255,255,.03);
+      border:1px solid var(--border); border-radius:16px;
+      padding:14px;
+    }
+    .c-card h3{ margin:6px 0 8px; }
+    .c-card p, .c-card li{ color: var(--muted-2); }
+    .c-card a{ color: var(--muted); font-weight:800; text-decoration:none; }
+    .c-card a:hover{ color:#fff; text-decoration:underline; }
+
+    .form-row{ display:grid; gap:10px; margin:8px 0; }
+    .inp, .txt{
+      width:100%; border-radius:14px; border:1px solid var(--border);
+      background: rgba(255,255,255,.04); color:#fff;
+      padding:12px 14px; font-size:14px; outline:none;
+      transition: box-shadow .15s ease, border-color .15s ease;
+    }
+    .inp:focus, .txt:focus{ box-shadow:0 0 0 6px var(--ring); border-color: rgba(124,193,255,.45); }
+    .txt{ min-height:140px; resize:vertical; }
+
+    .meta{
+      font-size:12px; color: var(--muted);
+      margin-top:6px;
+    }
+  </style>
 </head>
 <body>
-<header class="navbar">
-<a class="logo" href="/">🗳️ Testlik</a>
-<nav class="topnav">
-<a href="/">Anketler</a>
-<a href="/privacy.html">Gizlilik</a>
-</nav>
-<button id="authBtn" class="btn ghost">Giriş</button>
-</header>
+  <!-- NAVBAR -->
+  <header class="navbar glass">
+    <a class="logo" href="index.html"><span class="logo-emoji">🗳️</span> <span class="logo-text">Testlik</span></a>
+    <nav class="topnav">
+      <a href="index.html">Anketler</a>
+      <a href="puan.html">Puanlarım</a>
+      <a href="oduller.html">Ödüller</a>
+    </nav>
+    <button id="authBtn" class="btn ghost">Giriş</button>
+  </header>
 
+  <!-- Üst Reklam -->
+  <div class="ad ad-top">
+    <ins class="adsbygoogle" style="display:block;text-align:center"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="1234567890"
+         data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
 
-<main class="wrap">
-<section class="grid-area" style="max-width:720px;margin:0 auto;">
-<h1>İletişim</h1>
-<p>Bizimle <a href="mailto:iletisim@testlik.com">iletisim@testlik.com</a> adresinden iletişime geçebilirsiniz.</p>
-</section>
-</main>
+  <main class="wrap" role="main">
+    <section class="grid-area" style="grid-column:1 / -1;">
+      <div class="contact-wrap">
+        <h1 class="section-title" style="text-align:center;">İletişim</h1>
 
+        <div class="c-grid">
+          <!-- Form -->
+          <div class="c-card">
+            <h3>Bize Yaz</h3>
+            <p>Öneri, geri bildirim veya iş birliği için formu doldurun. Gönder tuşu, varsayılan e-posta istemcinizi açar.</p>
+            <form id="cForm">
+              <div class="form-row">
+                <input class="inp" type="text" id="ad" name="ad" placeholder="Ad Soyad" required />
+                <input class="inp" type="email" id="email" name="email" placeholder="E-posta" required />
+                <input class="inp" type="text" id="konu" name="konu" placeholder="Konu" required />
+                <textarea class="txt" id="mesaj" name="mesaj" placeholder="Mesajınız..." required></textarea>
+              </div>
+              <button class="btn cta" type="submit">Gönder</button>
+              <div class="meta">Doğrudan e-posta: <a href="mailto:iletisim@testlik.com">iletisim@testlik.com</a></div>
+            </form>
+          </div>
 
-<script src="/js/auth.js"></script>
+          <!-- Bilgi & Yardım -->
+          <div class="c-card">
+            <h3>Sık Sorulanlar</h3>
+            <ul>
+              <li><strong>Puanlar nasıl kazanılır?</strong> Her anketi çözdüğünde +10 puan eklersin. Aynı ankete ikinci kez puan verilmez.</li>
+              <li><strong>Ödüller gerçek mi?</strong> Sitedeki ödüller promosyon amaçlı sanal rozetlerdir.</li>
+              <li><strong>Giriş yapmadan kullanabilir miyim?</strong> Evet; fakat puanlar ve geçmişin için Google ile giriş önerilir.</li>
+            </ul>
+            <h3>Bağlantılar</h3>
+            <p><a href="privacy.html">Gizlilik Politikası</a> · <a href="terms.html">Kullanım Şartları</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Alt Reklam -->
+  <footer class="footer">
+    <div class="ad ad-footer">
+      <ins class="adsbygoogle" style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+           data-ad-slot="3456789012"
+           data-ad-format="link"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    <nav class="legal">
+      <a href="privacy.html">Gizlilik</a><span>·</span>
+      <a href="terms.html">Kullanım Şartları</a><span>·</span>
+      <a href="contact.html">İletişim</a>
+    </nav>
+    <small>© <span id="yil"></span> Testlik</small>
+  </footer>
+
+  <!-- Auth (Giriş/Çıkış) -->
+  <script type="module" src="js/auth.js"></script>
+
+  <!-- Basit mailto form handler -->
+  <script>
+    const yilEl = document.getElementById('yil'); if (yilEl) yilEl.textContent = new Date().getFullYear();
+
+    document.getElementById('cForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const ad    = document.getElementById('ad').value.trim();
+      const mail  = document.getElementById('email').value.trim();
+      const konu  = document.getElementById('konu').value.trim();
+      const msg   = document.getElementById('mesaj').value.trim();
+
+      const subject = encodeURIComponent(`[Testlik] ${konu}`);
+      const body = encodeURIComponent(
+        `Ad Soyad: ${ad}\nE-posta: ${mail}\n\nMesaj:\n${msg}\n\n---\nGönderim: Testlik iletişim formu`
+      );
+      window.location.href = `mailto:iletisim@testlik.com?subject=${subject}&body=${body}`;
+    });
+  </script>
 </body>
 </html>
