@@ -1,14 +1,14 @@
 [
-{
-"title": "Hangi içeceği daha çok seversin?",
-"desc": "Çay mı, kahve mi, gazoz mu? Oyunu ver!",
-"image": "/assets/og-banner.jpg",
-"link": "/anketler/anket-1.html"
-},
-{
-"title": "En lezzetli Türk tatlısı hangisi?",
-"desc": "Baklava mı, künefe mi, sütlaç mı?",
-"image": "/assets/og-banner.jpg",
-"link": "/anketler/anket-2.html"
-}
+  {
+    "title": "Hangi içeceği daha çok seversin?",
+    "desc": "Çay mı, kahve mi, gazoz mu? Oyunu ver; +10 puanı kap!",
+    "image": "assets/og-banner.jpg",
+    "link": "anketler/anket-1.html"
+  },
+  {
+    "title": "En lezzetli Türk tatlısı hangisi?",
+    "desc": "Baklava mı, künefe mi, sütlaç mı? Oy ver; +10 puan kazan!",
+    "image": "assets/og-banner.jpg",
+    "link": "anketler/anket-2.html"
+  }
 ]
