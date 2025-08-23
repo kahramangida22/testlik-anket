@@ -1,33 +1,178 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kullanım Şartları | Testlik</title>
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://testlik.com/terms.html">
-<link rel="stylesheet" href="/css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Kullanım Şartları | Testlik</title>
+  <meta name="description" content="Testlik kullanım şartları: hesap, puan sistemi, ödüller, içerik kuralları ve yasal koşullar." />
+  <link rel="canonical" href="https://testlik.com/terms.html" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="Kullanım Şartları | Testlik" />
+  <meta property="og:description" content="Testlik kullanım şartları ve yasal koşullar." />
+  <meta property="og:image" content="assets/og-banner.jpg" />
+  <link rel="icon" href="assets/logo.png" />
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  <!-- Firebase boot (ESM) - üst menüde giriş/çıkış için -->
+  <script type="module">
+    import { initializeApp }   from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js';
+    import { getAnalytics }    from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js';
+    import { getAuth }         from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js';
+    import { getFirestore }    from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDcneigub2eAJjTrfrkiETuLgy5ule8L6s",
+      authDomain: "testlik.firebaseapp.com",
+      projectId: "testlik",
+      storageBucket: "testlik.firebasestorage.app",
+      messagingSenderId: "668524500496",
+      appId: "1:668524500496:web:579bb4fc5990c87afedc95",
+      measurementId: "G-8ZEYBJCV3T"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    window.fb = {
+      app,
+      analytics: getAnalytics(app),
+      auth: getAuth(app),
+      db: getFirestore(app)
+    };
+  </script>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .doc-wrap{
+      max-width: 920px; margin: 0 auto;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border: 1px solid var(--border); border-radius: 18px;
+      padding: 18px; box-shadow: var(--shadow-1);
+    }
+    .doc-wrap h1{ margin: 6px 0 12px; }
+    .doc-wrap h2{ margin: 16px 0 8px; font-size:18px; }
+    .doc-wrap p, .doc-wrap li{ color: var(--muted-2); line-height: 1.65; }
+    .doc-wrap a{ color: var(--muted); font-weight: 800; text-decoration: none; }
+    .doc-wrap a:hover{ color:#fff; text-decoration: underline; }
+  </style>
 </head>
 <body>
-<header class="navbar">
-<a class="logo" href="/">🗳️ Testlik</a>
-<nav class="topnav">
-<a href="/">Anketler</a>
-<a href="/privacy.html">Gizlilik</a>
-<a href="/contact.html">İletişim</a>
-</nav>
-<button id="authBtn" class="btn ghost">Giriş</button>
-</header>
+  <!-- NAVBAR -->
+  <header class="navbar glass">
+    <a class="logo" href="index.html"><span class="logo-emoji">🗳️</span> <span class="logo-text">Testlik</span></a>
+    <nav class="topnav">
+      <a href="index.html">Anketler</a>
+      <a href="puan.html">Puanlarım</a>
+      <a href="oduller.html">Ödüller</a>
+    </nav>
+    <button id="authBtn" class="btn ghost">Giriş</button>
+  </header>
 
+  <!-- Üst Reklam -->
+  <div class="ad ad-top">
+    <ins class="adsbygoogle" style="display:block;text-align:center"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="1234567890"
+         data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
 
-<main class="wrap">
-<section class="grid-area" style="max-width:860px;margin:0 auto;">
-<h1>Kullanım Şartları</h1>
-<p>Testlik'i kullanarak anket içeriklerine saygılı davranmayı ve spam yapmamayı kabul edersiniz. Reklam tıklamaya teşvik edilmez.</p>
-</section>
-</main>
+  <main class="wrap" role="main">
+    <section class="grid-area" style="grid-column:1 / -1;">
+      <div class="doc-wrap">
+        <h1>Kullanım Şartları</h1>
+        <p>Testlik’i kullanarak bu Kullanım Şartlarını kabul etmiş olursunuz. Şartları kabul etmiyorsanız siteyi kullanmamalısınız.</p>
 
+        <h2>1) Hizmetin Tanımı</h2>
+        <p>Testlik, kullanıcıların anketleri görüntüleyip oy vererek puan kazandığı eğlence amaçlı bir platformdur. Kimlik doğrulama ve veri saklama için Firebase (Google), reklam gösterimi için Google AdSense kullanır.</p>
 
-<script src="/js/auth.js"></script>
+        <h2>2) Uygunluk</h2>
+        <p>Hizmeti yerel mevzuatınıza uygun şekilde ve gerekli yasal kapasiteye sahip olarak kullanmalısınız. 13 yaş altı kullanıcılar için ebeveyn onayı gerekebilir (bölgesel kurallara tabidir).</p>
+
+        <h2>3) Hesap ve Güvenlik</h2>
+        <ul>
+          <li>Giriş, Google hesabınız üzerinden Firebase Authentication ile yapılır.</li>
+          <li>Hesabınızın güvenliği size aittir; oturum bilgilerinizi paylaşmayın.</li>
+          <li>Şüpheli faaliyetleri <a href="mailto:iletisim@testlik.com">iletisim@testlik.com</a> adresine bildiriniz.</li>
+        </ul>
+
+        <h2>4) Puan Sistemi</h2>
+        <ul>
+          <li>Her anket için kurallarda belirtilen puan verilir (varsayılan: +10).</li>
+          <li>Aynı anketten yalnızca <strong>bir kez</strong> puan kazanılır (suiistimalleri önlemek için).</li>
+          <li>Puanlar, Cloud Firestore’da hesabınıza bağlı olarak tutulur.</li>
+          <li>Puanlar devredilemez, nakde çevrilemez; yalnızca platform içi sanal avantaj/rozet/ödüller için kullanılır.</li>
+        </ul>
+
+        <h2>5) Ödüller</h2>
+        <ul>
+          <li>Ödüller promosyon amaçlı sanal avantajlardır; gerçek para veya eşdeğeri değildir.</li>
+          <li>Ödül koşulları, stok/erişilebilirlik veya kampanyaya göre değişebilir.</li>
+          <li>Herhangi bir zamanda ödül ve puan kurallarını güncelleme hakkını saklı tutarız.</li>
+        </ul>
+
+        <h2>6) İçerik Kuralları</h2>
+        <ul>
+          <li>Hukuka aykırı, nefret söylemi içeren, taciz edici, zararlı içerik ve telif hakkı ihlali yasaktır.</li>
+          <li>Anketleri manipüle etmek, otomasyonla oy vermek ve güvenlik açıklarından faydalanmak yasaktır.</li>
+        </ul>
+
+        <h2>7) Reklamlar ve Gelir Modeli</h2>
+        <ul>
+          <li>Reklam gösterimi Google AdSense ile yapılır.</li>
+          <li>Kullanıcıları <strong>reklamlara tıklamaya teşvik etmek</strong> yasaktır. Bu tür davranışlar hesabın ve erişimin sonlandırılmasına sebep olabilir.</li>
+        </ul>
+
+        <h2>8) Üçüncü Taraf Servisler</h2>
+        <ul>
+          <li><strong>Firebase (Google):</strong> Kimlik doğrulama (Auth) ve veritabanı (Firestore).</li>
+          <li><strong>Google AdSense:</strong> Reklam gösterimi ve ölçüm.</li>
+        </ul>
+
+        <h2>9) Fikri Mülkiyet</h2>
+        <p>Sitedeki marka, logo, tasarım, yazılım ve metinlerin tüm hakları saklıdır. İzinsiz kullanım yasaktır.</p>
+
+        <h2>10) Sorumluluğun Sınırlandırılması</h2>
+        <p>Hizmet “olduğu gibi” sunulur. Testlik, veri kaybı, gelir kaybı, dolaylı/sonuçsal zararlar dahil olmak üzere herhangi bir zarardan sorumlu tutulamaz.</p>
+
+        <h2>11) Değişiklikler</h2>
+        <p>Bu şartları zaman zaman güncelleyebiliriz. Güncellemeler bu sayfada yayınlandığı andan itibaren geçerlidir.</p>
+
+        <h2>12) Fesih</h2>
+        <p>Kurallara aykırı kullanım, kötüye kullanım veya yasal gereklilik halinde hizmete erişiminizi askıya alabilir veya sonlandırabiliriz.</p>
+
+        <h2>13) Uygulanacak Hukuk</h2>
+        <p>Uyuşmazlıklar, yerel emredici hükümler saklı kalmak kaydıyla, hizmet sağlayıcının faaliyet gösterdiği ülke hukukuna tabi olabilir.</p>
+
+        <h2>14) İletişim</h2>
+        <p>Her türlü talep için <a href="mailto:iletisim@testlik.com">iletisim@testlik.com</a> adresine yazabilirsiniz.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Alt Reklam + Footer -->
+  <footer class="footer">
+    <div class="ad ad-footer">
+      <ins class="adsbygoogle" style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+           data-ad-slot="3456789012"
+           data-ad-format="link"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    <nav class="legal">
+      <a href="privacy.html">Gizlilik</a><span>·</span>
+      <a href="terms.html">Kullanım Şartları</a><span>·</span>
+      <a href="contact.html">İletişim</a>
+    </nav>
+    <small>© <span id="yil"></span> Testlik</small>
+  </footer>
+
+  <!-- Auth (Giriş/Çıkış) -->
+  <script type="module" src="js/auth.js"></script>
+
+  <script>
+    const y = document.getElementById('yil'); if (y) y.textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
