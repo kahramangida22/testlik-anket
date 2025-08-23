@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<body>
+<header class="navbar">
+<a class="logo" href="/">🗳️ Testlik</a>
+<nav class="topnav">
+<a href="/">Anketler</a>
+<a href="/puan.html">Puanlarım</a>
+<a href="/oduller.html">Ödüller</a>
+</nav>
+<button id="authBtn" class="btn ghost">Giriş</button>
+</header>
+
+
+<div class="ad ad-top">
+<ins class="adsbygoogle" style="display:block;text-align:center" data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+
+<main class="wrap">
+<section class="grid-area" style="max-width:760px;margin:0 auto;">
+<h1>En lezzetli Türk tatlısı hangisi?</h1>
+<form id="anketForm">
+<label><input type="radio" name="secim" required> Baklava</label><br>
+<label><input type="radio" name="secim" required> Künefe</label><br>
+<label><input type="radio" name="secim" required> Sütlaç</label><br><br>
+<button type="submit" class="btn big">Oy Ver ve 10 Puan Kazan</button>
+</form>
+
+
+<div class="ad">
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="4567890123" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+</section>
+</main>
+
+
+<footer class="footer">
+<div class="ad ad-footer">
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="3456789012" data-ad-format="link" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+</footer>
+
+
+<script src="/js/auth.js"></script>
+<script src="/js/puan.js"></script>
+<script>
+document.getElementById('anketForm').addEventListener('submit', function(e){
+e.preventDefault();
+puanEkle(10);
+});
+</script>
+</body>
+</html>
