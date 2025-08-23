@@ -1,61 +1,71 @@
 <!DOCTYPE html>
-<meta property="og:description" content="Çay mı, kahve mi? Oy ver!">
-<meta property="og:type" content="article">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="/css/style.css">
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hangi içeceği daha çok seversin? | Testlik</title>
+  <meta name="description" content="Çay mı, kahve mi? Oyunu ver, 10 puanı kap!">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <!-- Firebase boot (ESM) - index’tekiyle aynı config -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js';
+    import { getAnalytics }  from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js';
+    import { getAuth }       from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js';
+    import { getFirestore }  from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDcneigub2eAJjTrfrkiETuLgy5ule8L6s",
+      authDomain: "testlik.firebaseapp.com",
+      projectId: "testlik",
+      storageBucket: "testlik.firebasestorage.app",
+      messagingSenderId: "668524500496",
+      appId: "1:668524500496:web:579bb4fc5990c87afedc95",
+      measurementId: "G-8ZEYBJCV3T"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    window.fb = {
+      app,
+      analytics: getAnalytics(app),
+      auth: getAuth(app),
+      db: getFirestore(app)
+    };
+  </script>
 </head>
 <body>
-<header class="navbar">
-<a class="logo" href="/">🗳️ Testlik</a>
-<nav class="topnav">
-<a href="/">Anketler</a>
-<a href="/puan.html">Puanlarım</a>
-<a href="/oduller.html">Ödüller</a>
-</nav>
-<button id="authBtn" class="btn ghost">Giriş</button>
-</header>
+  <header class="navbar">
+    <a class="logo" href="../index.html">🗳️ Testlik</a>
+    <nav class="topnav">
+      <a href="../index.html">Anketler</a>
+      <a href="../puan.html">Puanlarım</a>
+      <a href="../oduller.html">Ödüller</a>
+    </nav>
+    <button id="authBtn" class="btn ghost">Giriş</button>
+  </header>
 
+  <main class="wrap">
+    <section class="grid-area" style="max-width:760px;margin:0 auto;">
+      <h1>Hangi içeceği daha çok seversin?</h1>
+      <form id="anketForm">
+        <label><input type="radio" name="secim" required> Çay</label><br>
+        <label><input type="radio" name="secim" required> Kahve</label><br>
+        <label><input type="radio" name="secim" required> Gazoz</label><br><br>
+        <button type="submit" class="btn big">Oy Ver ve 10 Puan Kazan</button>
+      </form>
+    </section>
+  </main>
 
-<div class="ad ad-top">
-<ins class="adsbygoogle" style="display:block;text-align:center" data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
+  <!-- Auth UI -->
+  <script type="module" src="../js/auth.js"></script>
 
-
-<main class="wrap">
-<section class="grid-area" style="max-width:760px;margin:0 auto;">
-<h1>Hangi içeceği daha çok seversin?</h1>
-<form id="anketForm">
-<label><input type="radio" name="secim" required> Çay</label><br>
-<label><input type="radio" name="secim" required> Kahve</label><br>
-<label><input type="radio" name="secim" required> Gazoz</label><br><br>
-<button type="submit" class="btn big">Oy Ver ve 10 Puan Kazan</button>
-</form>
-
-
-<div class="ad">
-<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="4567890123" data-ad-format="auto" data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-</section>
-</main>
-
-
-<footer class="footer">
-<div class="ad ad-footer">
-<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="3456789012" data-ad-format="link" data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-</footer>
-
-
-<script src="/js/auth.js"></script>
-<script src="/js/puan.js"></script>
-<script>
-document.getElementById('anketForm').addEventListener('submit', function(e){
-e.preventDefault();
-puanEkle(10); // aynı anketten 1 kez puan
-});
-</script>
+  <!-- Form puan yazma -->
+  <script type="module">
+    import { awardPointsForPoll } from '../js/puan.js';
+    document.getElementById('anketForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await awardPointsForPoll(location.pathname, 10);
+    });
+  </script>
 </body>
 </html>
