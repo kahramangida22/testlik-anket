@@ -1,55 +1,109 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Puanım | Testlik</title>
-<meta name="description" content="Toplam puanını görüntüle. Daha çok anket çözerek puan kazan!">
-<link rel="canonical" href="https://testlik.com/puan.html">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="/css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Puanım | Testlik</title>
+  <meta name="description" content="Toplam puanını gerçek zamanlı görüntüle." />
+  <link rel="canonical" href="https://testlik.com/puan.html" />
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- AdSense (isteğe bağlı) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  <!-- Firebase boot (ESM) -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js';
+    import { getAnalytics }  from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js';
+    import { getAuth }       from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js';
+    import { getFirestore }  from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDcneigub2eAJjTrfrkiETuLgy5ule8L6s",
+      authDomain: "testlik.firebaseapp.com",
+      projectId: "testlik",
+      storageBucket: "testlik.firebasestorage.app",
+      messagingSenderId: "668524500496",
+      appId: "1:668524500496:web:579bb4fc5990c87afedc95",
+      measurementId: "G-8ZEYBJCV3T"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    window.fb = {
+      app,
+      analytics: getAnalytics(app),
+      auth: getAuth(app),
+      db: getFirestore(app)
+    };
+  </script>
 </head>
 <body>
-<header class="navbar">
-<a class="logo" href="/">🗳️ Testlik</a>
-<nav class="topnav">
-<a href="/">Anketler</a>
-<a href="/oduller.html">Ödüller</a>
-</nav>
-<button id="authBtn" class="btn ghost">Giriş</button>
-</header>
+  <header class="navbar">
+    <a class="logo" href="index.html">🗳️ Testlik</a>
+    <nav class="topnav">
+      <a href="index.html">Anketler</a>
+      <a href="oduller.html">Ödüller</a>
+    </nav>
+    <button id="authBtn" class="btn ghost">Giriş</button>
+  </header>
 
+  <main class="wrap">
+    <section class="grid-area" style="max-width:720px;margin:0 auto;text-align:center;">
+      <h1>Toplam Puanın</h1>
+      <div id="puanAlani" style="font-size:42px;color:#7cc1ff;font-weight:800;">—</div>
+      <p id="puanDurum" style="color:#9fb3ff">Puanlar yükleniyor…</p>
 
-<div class="ad ad-top">
-<ins class="adsbygoogle" style="display:block;text-align:center" data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
+      <div class="ad">
+        <ins class="adsbygoogle" style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+             data-ad-slot="4567890123"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </section>
+  </main>
 
+  <footer class="footer">
+    <div class="ad ad-footer">
+      <ins class="adsbygoogle" style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+           data-ad-slot="3456789012"
+           data-ad-format="link"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </footer>
 
-<main class="wrap">
-<section class="grid-area" style="max-width:720px;margin:0 auto;text-align:center;">
-<h1>Toplam Puanın</h1>
-<div id="puanAlani" style="font-size:42px;color:#2e7d32;font-weight:800;">0</div>
-<p>Daha fazla anket çözerek puanlarını arttır.</p>
-<button class="btn ghost" onclick="puanSifirla()">Puanları Sıfırla (test)</button>
+  <!-- Auth (Giriş/Çıkış butonu) -->
+  <script type="module" src="js/auth.js"></script>
 
+  <!-- Firestore'dan puanı oku (gerçek zamanlı) -->
+  <script type="module">
+    import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js';
+    import { doc, onSnapshot }    from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js';
 
-<div class="ad">
-<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="4567890123" data-ad-format="auto" data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-</section>
-</main>
+    const auth = window.fb.auth;
+    const db   = window.fb.db;
 
+    const puanEl   = document.getElementById('puanAlani');
+    const durumEl  = document.getElementById('puanDurum');
 
-<footer class="footer">
-<div class="ad ad-footer">
-<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="3456789012" data-ad-format="link" data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-</footer>
-
-
-<script src="/js/auth.js"></script>
-<script src="/js/puan.js"></script>
-<script>document.getElementById('puanAlani').textContent =
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        puanEl.textContent = '—';
+        durumEl.textContent = 'Puanlarını görmek için giriş yap.';
+        return;
+      }
+      durumEl.textContent = ' ';
+      const userRef = doc(db, 'users', user.uid);
+      onSnapshot(userRef, (snap) => {
+        const data = snap.data();
+        puanEl.textContent = (data?.totalPoints ?? 0);
+      }, (err) => {
+        console.error(err);
+        durumEl.textContent = 'Puanlar okunamadı.';
+      });
+    });
+  </script>
+</body>
+</html>
