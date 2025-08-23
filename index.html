@@ -1,59 +1,174 @@
 <!DOCTYPE html>
-<script>
-// Yıl
-document.getElementById('yil').textContent = new Date().getFullYear();
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Testlik – Anket Çöz, Puan Kazan</title>
+  <meta name="description" content="Giriş yap, anket çöz, puan kazan! Testlik, mobil uyumlu, hızlı ve eğlenceli anket platformudur." />
+  <link rel="canonical" href="https://testlik.com/" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="Testlik – Anket Çöz, Puan Kazan" />
+  <meta property="og:description" content="Kocaman butona tıkla; rastgele anket çöz ve puan kazan!" />
+  <meta property="og:url" content="https://testlik.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/og-banner.jpg" />
+  <link rel="icon" href="assets/logo.png" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 
+  <!-- Firebase boot (ESM, sayfaya pencere objesi açıyoruz) -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js';
+    import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js';
+    import { getAuth } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js';
+    import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js';
 
-// Kocaman buton: rastgele anket
-document.getElementById('randomPoll').addEventListener('click', async () => {
-try {
-const res = await fetch('/anketler.json', { cache: 'no-store' });
-if (!res.ok) throw new Error('no list');
-const list = await res.json();
-const items = (Array.isArray(list) ? list : []).filter(x => x && x.link);
-const pick = items.length ? items[Math.floor(Math.random() * items.length)].link : null;
-location.href = pick || '/anketler/anket-1.html';
-} catch (_) {
-location.href = '/anketler/anket-1.html';
-}
-});
+    const firebaseConfig = {
+      apiKey: "AIzaSyDcneigub2eAJjTrfrkiETuLgy5ule8L6s",
+      authDomain: "testlik.firebaseapp.com",
+      projectId: "testlik",
+      storageBucket: "testlik.firebasestorage.app",
+      messagingSenderId: "668524500496",
+      appId: "1:668524500496:web:579bb4fc5990c87afedc95",
+      measurementId: "G-8ZEYBJCV3T"
+    };
 
+    const app = initializeApp(firebaseConfig);
+    window.fb = {
+      app,
+      analytics: getAnalytics(app),
+      auth: getAuth(app),
+      db: getFirestore(app)
+    };
+  </script>
 
-// Ana sayfa kart doldurma + içerik içi reklam (opsiyonel)
-(async () => {
-const grid = document.getElementById('pollGrid');
-if (!grid) return;
-try {
-const res = await fetch('/anketler.json');
-if (!res.ok) return;
-const list = await res.json();
-(list || []).slice(0, 12).forEach((it, i) => {
-if (!it?.link) return;
-const card = document.createElement('a');
-card.className = 'card';
-card.href = it.link;
-card.setAttribute('role', 'listitem');
-card.innerHTML = `
-<img src="${it.image || '/assets/og-banner.jpg'}" alt="${it.title || 'Anket'}" loading="lazy" />
-<div class="card-body">
-<h3>${it.title || 'Anket'}</h3>
-<p>${it.desc || ''}</p>
-</div>
-`;
-grid.appendChild(card);
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="navbar glass" role="banner">
+    <a class="logo" href="index.html" aria-label="Testlik Ana Sayfa">🗳️ Testlik</a>
+    <nav class="topnav" aria-label="Ana menü">
+      <a href="index.html" aria-current="page">Anketler</a>
+      <a href="puan.html">Puanlarım</a>
+      <a href="oduller.html">Ödüller</a>
+    </nav>
+    <button id="authBtn" class="btn ghost" aria-label="Giriş Yap">Giriş</button>
+  </header>
 
+  <div class="ad ad-top" aria-label="Üst reklam">
+    <ins class="adsbygoogle"
+         style="display:block;text-align:center"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+         data-ad-slot="1234567890"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
 
-if ((i + 1) % 3 === 0) {
-const ad = document.createElement('div');
-ad.className = 'ad infeed';
-ad.innerHTML = `
-<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="4567890123" data-ad-format="auto" data-full-width-responsive="true"></ins>`;
-grid.appendChild(ad);
-try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
-}
-});
-} catch(e) {}
-})();
-</script>
+  <section class="hero fancy" role="region" aria-label="Hızlı başla">
+    <h1>Anket Çöz, Puan Kazan</h1>
+    <p>Butona tıkla, rastgele bir ankete ışınlan 🎯</p>
+    <button id="randomPoll" class="btn big pulse" aria-label="Rastgele anket çöz">📝 Anket Çöz – Puan Kazan</button>
+  </section>
+
+  <main class="wrap" role="main">
+    <aside class="ad ad-side left" aria-label="Sol reklam">
+      <ins class="adsbygoogle"
+           style="display:block;width:160px;height:600px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+           data-ad-slot="2345678901"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </aside>
+
+    <section class="grid-area" aria-label="Popüler anketler">
+      <h2 class="sr-only">Popüler Anketler</h2>
+      <div id="pollGrid" class="grid" role="list"></div>
+    </section>
+
+    <aside class="ad ad-side right" aria-label="Sağ reklam">
+      <ins class="adsbygoogle"
+           style="display:block;width:160px;height:600px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+           data-ad-slot="2345678901"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </aside>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="ad ad-footer" aria-label="Alt reklam">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+           data-ad-slot="3456789012"
+           data-ad-format="link"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    <nav class="legal">
+      <a href="privacy.html">Gizlilik</a><span>·</span>
+      <a href="terms.html">Kullanım Şartları</a><span>·</span>
+      <a href="contact.html">İletişim</a>
+    </nav>
+    <small>© <span id="yil"></span> Testlik</small>
+  </footer>
+
+  <!-- Güvenli JS: DOM yüklendikten sonra çalışır -->
+  <script type="module" src="js/auth.js" defer></script>
+  <script>
+  window.addEventListener('DOMContentLoaded', () => {
+    // © yıl – eleman varsa yaz
+    const yilEl = document.getElementById('yil');
+    if (yilEl) yilEl.textContent = new Date().getFullYear();
+
+    // Rastgele anket – dosya yolları göreli
+    const randBtn = document.getElementById('randomPoll');
+    if (randBtn) {
+      randBtn.addEventListener('click', async () => {
+        try {
+          const res = await fetch('anketler.json', { cache: 'no-store' });
+          const list = res.ok ? await res.json() : [];
+          const items = Array.isArray(list) ? list.filter(x => x && x.link) : [];
+          const pick = items.length ? items[Math.floor(Math.random()*items.length)].link : 'anketler/anket-1.html';
+          location.href = pick;
+        } catch (e) {
+          location.href = 'anketler/anket-1.html';
+        }
+      });
+    }
+
+    // Anasayfa kartları doldur + içerik içi reklam
+    const grid = document.getElementById('pollGrid');
+    if (grid) {
+      fetch('anketler.json').then(r => r.json()).then(list => {
+        (list || []).slice(0, 12).forEach((it, i) => {
+          if (!it?.link) return;
+          const card = document.createElement('a');
+          card.className = 'card tilt';
+          card.href = it.link;
+          card.setAttribute('role', 'listitem');
+          card.innerHTML = `
+            <img src="${it.image || 'assets/og-banner.jpg'}" alt="${it.title || 'Anket'}" loading="lazy" />
+            <div class="card-body">
+              <h3>${it.title || 'Anket'}</h3>
+              <p>${it.desc || ''}</p>
+            </div>`;
+          grid.appendChild(card);
+
+          if ((i + 1) % 3 === 0) {
+            const ad = document.createElement('div');
+            ad.className = 'ad infeed';
+            ad.innerHTML = `
+              <ins class="adsbygoogle" style="display:block"
+                   data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+                   data-ad-slot="4567890123"
+                   data-ad-format="auto"
+                   data-full-width-responsive="true"></ins>`;
+            grid.appendChild(ad);
+            try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
+          }
+        });
+      }).catch(()=>{});
+    }
+  });
+  </script>
 </body>
 </html>
