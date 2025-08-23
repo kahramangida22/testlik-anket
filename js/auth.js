@@ -1,3 +1,20 @@
+// Bu dosya type="module" olarak yüklenecek.
+btn.textContent = user ? 'Çıkış' : 'Giriş';
+btn.setAttribute('aria-label', user ? 'Çıkış Yap' : 'Giriş Yap');
+});
+
+
+btn.addEventListener('click', async () => {
+const user = auth.currentUser;
+if (user) {
+await signOut(auth);
+return;
+}
+const provider = new GoogleAuthProvider();
+try { await signInWithPopup(auth, provider); } catch (e) { console.warn(e); }
+});
+}
+```javascript
 (function(){
 const btn = document.getElementById('authBtn');
 if (!btn) return;
