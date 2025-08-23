@@ -3,19 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>Puanım | Testlik</title>
-  <meta name="description" content="Toplam puanını gerçek zamanlı görüntüle." />
+  <meta name="description" content="Toplam puanını gerçek zamanlı gör. Anket çöz, puan kazan ve ödülleri topla!" />
   <link rel="canonical" href="https://testlik.com/puan.html" />
-  <link rel="stylesheet" href="css/style.css" />
-  <!-- AdSense (isteğe bağlı) -->
+  <meta property="og:title" content="Puanım | Testlik" />
+  <meta property="og:description" content="Toplam puanını gerçek zamanlı gör." />
+  <meta property="og:image" content="assets/og-banner.jpg" />
+  <link rel="icon" href="assets/logo.png" />
+
+  <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 
   <!-- Firebase boot (ESM) -->
   <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js';
-    import { getAnalytics }  from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js';
-    import { getAuth }       from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js';
-    import { getFirestore }  from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js';
+    import { initializeApp }   from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js';
+    import { getAnalytics }    from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js';
+    import { getAuth }         from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js';
+    import { getFirestore }    from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js';
 
     const firebaseConfig = {
       apiKey: "AIzaSyDcneigub2eAJjTrfrkiETuLgy5ule8L6s",
@@ -35,10 +40,47 @@
       db: getFirestore(app)
     };
   </script>
+
+  <!-- Stil -->
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* sayfaya özel küçük stiller */
+    .score-wrap{
+      max-width: 820px; margin: 0 auto; text-align: center;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid var(--border); border-radius: 18px; padding: 18px;
+      box-shadow: var(--shadow-1);
+    }
+    .user-row{ display:flex; gap:12px; align-items:center; justify-content:center; flex-wrap:wrap; margin-bottom: 12px; }
+    .avatar{ width:44px; height:44px; border-radius:50%; background:#222d4c; border:1px solid var(--border); }
+    .uname{ font-weight:900; color:#fff; }
+    .score{
+      font-size: 56px; font-weight: 900; color: #7cc1ff;
+      text-shadow: 0 10px 28px rgba(124,193,255,.2);
+    }
+    .score.pop{ animation: bump .35s ease; }
+    @keyframes bump { 0%{ transform: scale(1) } 50%{ transform: scale(1.07) } 100%{ transform: scale(1) } }
+    .hint{ color: var(--muted); margin: 8px 0 2px; }
+    .history{ margin-top: 14px; text-align: left; }
+    .history h3{ margin: 6px 0 8px; }
+    .vlist{ list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+    .vitem{
+      display:flex; align-items:center; justify-content:space-between; gap: 10px;
+      background: rgba(255,255,255,.03); border:1px solid var(--border);
+      border-radius: 12px; padding: 10px 12px;
+    }
+    .vitem .poll{ color:#fff; font-weight:700; font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .vitem .pts{ color:#22d3ee; font-weight:900; }
+    .vitem time{ color: var(--muted); font-size:12px; }
+
+    /* mini konfeti */
+    .confetti{ position:fixed; inset:0; pointer-events:none; z-index:9999; }
+  </style>
 </head>
 <body>
-  <header class="navbar">
-    <a class="logo" href="index.html">🗳️ Testlik</a>
+  <!-- NAVBAR -->
+  <header class="navbar glass">
+    <a class="logo" href="index.html"><span class="logo-emoji">🗳️</span> <span class="logo-text">Testlik</span></a>
     <nav class="topnav">
       <a href="index.html">Anketler</a>
       <a href="oduller.html">Ödüller</a>
@@ -46,23 +88,45 @@
     <button id="authBtn" class="btn ghost">Giriş</button>
   </header>
 
-  <main class="wrap">
-    <section class="grid-area" style="max-width:720px;margin:0 auto;text-align:center;">
-      <h1>Toplam Puanın</h1>
-      <div id="puanAlani" style="font-size:42px;color:#7cc1ff;font-weight:800;">—</div>
-      <p id="puanDurum" style="color:#9fb3ff">Puanlar yükleniyor…</p>
+  <!-- Üst Reklam -->
+  <div class="ad ad-top">
+    <ins class="adsbygoogle" style="display:block;text-align:center"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="1234567890"
+         data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
 
-      <div class="ad">
-        <ins class="adsbygoogle" style="display:block"
-             data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
-             data-ad-slot="4567890123"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  <main class="wrap" role="main">
+    <section class="grid-area" style="grid-column: 1 / -1;">
+      <h1 class="section-title" style="text-align:center;">Puanlarım</h1>
+
+      <div class="score-wrap">
+        <div class="user-row">
+          <img id="uPhoto" class="avatar" alt="Kullanıcı" />
+          <div class="uname" id="uName">Misafir</div>
+        </div>
+
+        <div class="score" id="puanAlani">—</div>
+        <div class="hint" id="puanDurum">Puanlarını görmek için giriş yap.</div>
+
+        <div class="ad">
+          <ins class="adsbygoogle" style="display:block"
+               data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+               data-ad-slot="4567890123"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <div class="history">
+          <h3>Son Kazanılan Puanlar</h3>
+          <ul class="vlist" id="voteList"></ul>
+        </div>
       </div>
     </section>
   </main>
 
+  <!-- Alt Reklam -->
   <footer class="footer">
     <div class="ad ad-footer">
       <ins class="adsbygoogle" style="display:block"
@@ -72,36 +136,134 @@
            data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
+    <nav class="legal">
+      <a href="privacy.html">Gizlilik</a><span>·</span>
+      <a href="terms.html">Kullanım Şartları</a><span>·</span>
+      <a href="contact.html">İletişim</a>
+    </nav>
+    <small>© <span id="yil"></span> Testlik</small>
   </footer>
 
   <!-- Auth (Giriş/Çıkış butonu) -->
   <script type="module" src="js/auth.js"></script>
 
-  <!-- Firestore'dan puanı oku (gerçek zamanlı) -->
+  <!-- Realtime puan + son oylar -->
   <script type="module">
     import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js';
-    import { doc, onSnapshot }    from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js';
+    import {
+      doc, onSnapshot, collection, query, orderBy, limit
+    } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js';
 
     const auth = window.fb.auth;
     const db   = window.fb.db;
 
-    const puanEl   = document.getElementById('puanAlani');
-    const durumEl  = document.getElementById('puanDurum');
+    const yilEl  = document.getElementById('yil');
+    if (yilEl) yilEl.textContent = new Date().getFullYear();
+
+    const puanEl = document.getElementById('puanAlani');
+    const durum  = document.getElementById('puanDurum');
+    const vlist  = document.getElementById('voteList');
+    const uName  = document.getElementById('uName');
+    const uPhoto = document.getElementById('uPhoto');
+
+    function prettyTime(ts){
+      if (!ts) return '';
+      try {
+        const d = ts.toDate ? ts.toDate() : new Date(ts);
+        return d.toLocaleString('tr-TR');
+      } catch { return ''; }
+    }
+
+    // basit konfeti
+    function confetti(){
+      const c = document.createElement('canvas');
+      c.className = 'confetti'; document.body.appendChild(c);
+      const ctx = c.getContext('2d');
+      const W = c.width = innerWidth, H = c.height = innerHeight;
+      const pieces = Array.from({length: 100}, _ => ({
+        x: Math.random() * W, y: -20, s: 4 + Math.random()*6,
+        a: Math.random()*360, v: 1 + Math.random()*3
+      }));
+      let t = 0;
+      const tick = () => {
+        ctx.clearRect(0,0,W,H);
+        pieces.forEach(p => {
+          p.y += p.v; p.x += Math.sin((t+p.a)/20); p.a += 4;
+          ctx.fillStyle = `hsl(${(p.a+t)%360}, 90%, 60%)`;
+          ctx.fillRect(p.x, p.y, p.s, p.s*0.6);
+        });
+        t += 6;
+        if (t < 180) requestAnimationFrame(tick);
+        else document.body.removeChild(c);
+      };
+      tick();
+    }
+
+    let lastPoints = 0;
 
     onAuthStateChanged(auth, (user) => {
       if (!user) {
+        uName.textContent = 'Misafir';
+        uPhoto.src = 'assets/logo.png';
         puanEl.textContent = '—';
-        durumEl.textContent = 'Puanlarını görmek için giriş yap.';
+        durum.textContent = 'Puanlarını görmek için giriş yap.';
+        vlist.innerHTML = '';
         return;
       }
-      durumEl.textContent = ' ';
+
+      uName.textContent = user.displayName || 'Kullanıcı';
+      uPhoto.src = user.photoURL || 'assets/logo.png';
+
+      durum.textContent = ' ';
+      // toplam puan dinle
       const userRef = doc(db, 'users', user.uid);
       onSnapshot(userRef, (snap) => {
-        const data = snap.data();
-        puanEl.textContent = (data?.totalPoints ?? 0);
-      }, (err) => {
-        console.error(err);
-        durumEl.textContent = 'Puanlar okunamadı.';
+        const pts = snap.data()?.totalPoints ?? 0;
+        if (typeof lastPoints === 'number' && pts > lastPoints) {
+          puanEl.classList.remove('pop'); void puanEl.offsetWidth; puanEl.classList.add('pop');
+          confetti();
+        }
+        lastPoints = pts;
+        // animasyonlu sayma
+        let cur = parseInt(puanEl.dataset.val || '0');
+        const target = Number(pts) || 0;
+        if (cur === target) { puanEl.textContent = target; return; }
+        const step = Math.max(1, Math.ceil(Math.abs(target - cur)/30));
+        const dir  = target > cur ? 1 : -1;
+        const tick = () => {
+          cur += step * dir;
+          if ((dir > 0 && cur >= target) || (dir < 0 && cur <= target)) cur = target;
+          puanEl.textContent = cur;
+          puanEl.dataset.val = String(cur);
+          if (cur !== target) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }, () => {
+        durum.textContent = 'Puanlar okunamadı.';
+      });
+
+      // son 10 oy
+      const q = query(
+        collection(db, 'users', user.uid, 'votes'),
+        orderBy('createdAt', 'desc'),
+        limit(10)
+      );
+      onSnapshot(q, (snap) => {
+        vlist.innerHTML = '';
+        if (snap.empty) {
+          vlist.innerHTML = '<li class="vitem"><span class="poll">Henüz oy yok.</span><span class="pts">+0</span></li>';
+          return;
+        }
+        snap.forEach(docu => {
+          const d = docu.data();
+          const li = document.createElement('li');
+          li.className = 'vitem';
+          const pollName = (d?.pollId || '').split('/').pop() || 'Anket';
+          li.innerHTML = `<span class="poll">${decodeURIComponent(pollName)}</span>
+                          <span class="pts">+${d?.points ?? 0}</span>
+                          <time>${prettyTime(d?.createdAt)}</time>`;
+          vlist.appendChild(li);
+        });
       });
     });
   </script>
