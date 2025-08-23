@@ -1,4 +1,26 @@
+// type="module" olarak dahil et.
+if (e && e.message === 'ALREADY') {
+alert('Bu anketten daha önce puan kazandın. Başka ankete geç!');
+return false;
+}
+console.error(e);
+alert('Bir hata oluştu. Lütfen tekrar dene.');
+return false;
+}
+}
+```javascript
 const PUAN_MIKTARI = 10; // her anket için +10
+const GUNLUK_LIMIT = 100; // opsiyonel günlük puan limiti (istemezsen 0 yap)
+
+
+function puanGetir() {
+return parseInt(localStorage.getItem('toplamPuan') || '0');
+}
+
+
+function bugunStr() {
+const d = new Date();
+return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
 
