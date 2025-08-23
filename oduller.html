@@ -1,57 +1,227 @@
 <!DOCTYPE html>
-<nav class="topnav">
-<a href="/">Anketler</a>
-<a href="/puan.html">Puanlarım</a>
-</nav>
-<button id="authBtn" class="btn ghost">Giriş</button>
-</header>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+  <title>Ödüller | Testlik</title>
+  <meta name="description" content="Puanlarınla alabileceğin eğlenceli sanal ödülleri keşfet! Anket çöz, puan kazan ve rozetleri topla." />
+  <link rel="canonical" href="https://testlik.com/oduller.html" />
+  <meta property="og:title" content="Ödüller | Testlik" />
+  <meta property="og:description" content="Puanlarınla alabileceğin ödülleri keşfet." />
+  <meta property="og:image" content="assets/og-banner.jpg" />
+  <link rel="icon" href="assets/logo.png" />
 
-<div class="ad ad-top">
-<ins class="adsbygoogle" style="display:block;text-align:center" data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 
+  <!-- Firebase boot (ESM) -->
+  <script type="module">
+    import { initializeApp }   from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js';
+    import { getAnalytics }    from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js';
+    import { getAuth }         from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js';
+    import { getFirestore }    from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js';
 
-<main class="wrap">
-<section class="grid-area" style="max-width:960px;margin:0 auto;">
-<h1>Ödüller</h1>
-<p>Puanlarınla alabileceğin sanal ödüller ve rozetler:</p>
-<div class="grid">
-<div class="card">
-<img src="/assets/og-banner.jpg" alt="Bronz Rozet" loading="lazy">
-<div class="card-body"><h3>Bronz Rozet</h3><p>100 puan</p></div>
-</div>
-<div class="card">
-<img src="/assets/og-banner.jpg" alt="Gümüş Rozet" loading="lazy">
-<div class="card-body"><h3>Gümüş Rozet</h3><p>300 puan</p></div>
-</div>
-<div class="card">
-<img src="/assets/og-banner.jpg" alt="Altın Rozet" loading="lazy">
-<div class="card-body"><h3>Altın Rozet</h3><p>600 puan</p></div>
-</div>
-</div>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDcneigub2eAJjTrfrkiETuLgy5ule8L6s",
+      authDomain: "testlik.firebaseapp.com",
+      projectId: "testlik",
+      storageBucket: "testlik.firebasestorage.app",
+      messagingSenderId: "668524500496",
+      appId: "1:668524500496:web:579bb4fc5990c87afedc95",
+      measurementId: "G-8ZEYBJCV3T"
+    };
 
+    const app = initializeApp(firebaseConfig);
+    window.fb = {
+      app,
+      analytics: getAnalytics(app),
+      auth: getAuth(app),
+      db: getFirestore(app)
+    };
+  </script>
 
-<p style="margin-top:16px;font-size:13px;color:#777;">*Ödüller promosyon amaçlı sanal rozetlerdir. Reklam tıklamaya teşvik yoktur.</p>
+  <!-- Stil -->
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .rewards-top{
+      max-width: 980px; margin: 0 auto 12px; text-align:center;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid var(--border); border-radius:18px; padding: 16px;
+      box-shadow: var(--shadow-1);
+    }
+    .points-badge{
+      display:inline-flex; align-items:center; gap:8px;
+      background: rgba(124,193,255,.1); color:#7cc1ff; border:1px solid rgba(124,193,255,.35);
+      padding:6px 12px; border-radius: 999px; font-weight:900;
+    }
+    .rmeta{ color: var(--muted); margin-top:6px; font-size:13px; }
 
+    .r-card .req{ font-weight:900; color:#22d3ee; }
+    .badge{
+      display:inline-block; font-size:12px; font-weight:800; letter-spacing:.2px;
+      padding:6px 10px; border-radius:999px; border:1px solid var(--border); color:#cbd5e1;
+      background: rgba(255,255,255,.05);
+    }
+    .badge.ok{ color:#0b1220; background: linear-gradient(90deg, #7cc1ff, #22d3ee); border-color: transparent; }
+    .badge.lock{ color:#cbd5e1; background: rgba(255,255,255,.04); }
+    .r-actions{ margin-top: 10px; display:flex; gap:8px; flex-wrap:wrap; }
+    .r-actions .btn.small{ font-size:13px; padding:8px 12px; border-radius:12px; }
+    .thumb img{ object-position:center; }
 
-<div class="ad">
-<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="4567890123" data-ad-format="auto" data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-</section>
-</main>
+    .disclaimer{
+      text-align:center; color: var(--muted); font-size:12px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar glass">
+    <a class="logo" href="index.html"><span class="logo-emoji">🗳️</span> <span class="logo-text">Testlik</span></a>
+    <nav class="topnav">
+      <a href="index.html">Anketler</a>
+      <a href="puan.html">Puanlarım</a>
+    </nav>
+    <button id="authBtn" class="btn ghost">Giriş</button>
+  </header>
 
+  <!-- Üst Reklam -->
+  <div class="ad ad-top">
+    <ins class="adsbygoogle" style="display:block;text-align:center"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="1234567890"
+         data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
 
-<footer class="footer">
-<div class="ad ad-footer">
-<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="3456789012" data-ad-format="link" data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-</footer>
+  <main class="wrap" role="main">
+    <section class="grid-area" style="grid-column: 1 / -1;">
+      <div class="rewards-top">
+        <h1 class="section-title" style="margin-bottom:8px;">Ödüller</h1>
+        <div class="points-badge">🏅 Mevcut Puanın: <span id="myPoints">—</span></div>
+        <div class="rmeta">Puanların yettiğinde ödüller <strong>Alınabilir</strong> olur.</div>
+      </div>
 
+      <div class="grid" id="rewardsGrid">
+        <!-- ÖDÜLLER (örnekler) -->
+        <div class="card r-card" data-cost="100">
+          <div class="thumb"><img src="assets/og-banner.jpg" alt="Bronz Rozet" loading="lazy"></div>
+          <div class="card-body">
+            <h3>Bronz Rozet</h3>
+            <p>Profilinde sergilenen başlangıç rozetin.</p>
+            <div class="r-actions">
+              <span class="badge lock">Kilitli</span>
+              <span class="req">100 puan</span>
+              <a class="btn small ghost" href="index.html">Anket Çöz</a>
+            </div>
+          </div>
+        </div>
 
-<script src="/js/auth.js"></script>
+        <div class="card r-card" data-cost="300">
+          <div class="thumb"><img src="assets/og-banner.jpg" alt="Gümüş Rozet" loading="lazy"></div>
+          <div class="card-body">
+            <h3>Gümüş Rozet</h3>
+            <p>Daha çok anket, daha prestijli rozet.</p>
+            <div class="r-actions">
+              <span class="badge lock">Kilitli</span>
+              <span class="req">300 puan</span>
+              <a class="btn small ghost" href="index.html">Anket Çöz</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card r-card" data-cost="600">
+          <div class="thumb"><img src="assets/og-banner.jpg" alt="Altın Rozet" loading="lazy"></div>
+          <div class="card-body">
+            <h3>Altın Rozet</h3>
+            <p>En aktifler için parlayan altın rozet.</p>
+            <div class="r-actions">
+              <span class="badge lock">Kilitli</span>
+              <span class="req">600 puan</span>
+              <a class="btn small ghost" href="index.html">Anket Çöz</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card r-card" data-cost="1000">
+          <div class="thumb"><img src="assets/og-banner.jpg" alt="Elmas Rozet" loading="lazy"></div>
+          <div class="card-body">
+            <h3>Elmas Rozet</h3>
+            <p>Topluluğun yıldız üyesi seviyesine hoş geldin.</p>
+            <div class="r-actions">
+              <span class="badge lock">Kilitli</span>
+              <span class="req">1000 puan</span>
+              <a class="btn small ghost" href="index.html">Anket Çöz</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="disclaimer">*Ödüller promosyon amaçlı sanal rozetlerdir. Reklam tıklamasına teşvik edilmez.</p>
+    </section>
+  </main>
+
+  <!-- Alt Reklam -->
+  <footer class="footer">
+    <div class="ad ad-footer">
+      <ins class="adsbygoogle" style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+           data-ad-slot="3456789012"
+           data-ad-format="link"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    <nav class="legal">
+      <a href="privacy.html">Gizlilik</a><span>·</span>
+      <a href="terms.html">Kullanım Şartları</a><span>·</span>
+      <a href="contact.html">İletişim</a>
+    </nav>
+    <small>© <span id="yil"></span> Testlik</small>
+  </footer>
+
+  <!-- Auth (Giriş/Çıkış butonu) -->
+  <script type="module" src="js/auth.js"></script>
+
+  <!-- Puanı dinle ve ödül erişimi hesapla -->
+  <script type="module">
+    import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js';
+    import { doc, onSnapshot }    from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js';
+
+    const yilEl = document.getElementById('yil');
+    if (yilEl) yilEl.textContent = new Date().getFullYear();
+
+    const auth = window.fb.auth;
+    const db   = window.fb.db;
+
+    const myPtsEl = document.getElementById('myPoints');
+    const grid    = document.getElementById('rewardsGrid');
+
+    function markRewards(total){
+      myPtsEl.textContent = typeof total === 'number' ? total : '—';
+      if (!grid) return;
+      grid.querySelectorAll('.r-card').forEach(card => {
+        const cost = Number(card.dataset.cost || 0);
+        const badge = card.querySelector('.badge');
+        const btn   = card.querySelector('.btn.small');
+        if (total >= cost) {
+          badge.textContent = 'Alınabilir';
+          badge.classList.remove('lock'); badge.classList.add('ok');
+          btn.classList.remove('ghost'); btn.textContent = 'Daha Fazla Anket';
+        } else {
+          badge.textContent = 'Kilitli';
+          badge.classList.add('lock'); badge.classList.remove('ok');
+          btn.classList.add('ghost'); btn.textContent = 'Anket Çöz';
+        }
+      });
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) { markRewards(0); return; }
+      const userRef = doc(db, 'users', user.uid);
+      onSnapshot(userRef, (snap) => {
+        markRewards(snap.data()?.totalPoints ?? 0);
+      }, () => markRewards(0));
+    });
+  </script>
 </body>
 </html>
