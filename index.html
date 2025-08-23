@@ -6,20 +6,34 @@
   <title>Testlik – Anket Çöz, Puan Kazan</title>
 
   <!-- SEO -->
-  <meta name="description" content="Giriş yap, anket çöz, puan kazan! Testlik, mobil uyumlu, hızlı ve eğlenceli anket platformudur." />
+  <meta name="description" content="Giriş yap, anket çöz, puan kazan! Testlik; modern, hızlı ve eğlenceli anket platformudur." />
   <link rel="canonical" href="https://testlik.com/" />
   <meta name="robots" content="index,follow" />
+
+  <!-- Open Graph -->
   <meta property="og:title" content="Testlik – Anket Çöz, Puan Kazan" />
   <meta property="og:description" content="Kocaman butona tıkla; rastgele anket çöz ve puan kazan!" />
-  <meta property="og:url" content="https://testlik.com/" />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://testlik.com/" />
   <meta property="og:image" content="assets/og-banner.jpg" />
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Testlik",
+    "url": "https://testlik.com/",
+    "potentialAction": { "@type": "SearchAction", "target": "https://testlik.com/?q={search_term}", "query-input": "required name=search_term" }
+  }
+  </script>
+
   <link rel="icon" href="assets/logo.png" />
 
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 
-  <!-- Firebase boot (ESM). window.fb içine app/auth/db/analytics atıyoruz -->
+  <!-- Firebase boot (ESM): window.fb = {app, analytics, auth, db} -->
   <script type="module">
     import { initializeApp }   from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js';
     import { getAnalytics }    from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js';
@@ -45,13 +59,15 @@
     };
   </script>
 
-  <!-- Stil -->
+  <!-- Stil dosyası (bir sonraki mesajda vereceğim) -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
   <!-- NAVBAR -->
   <header class="navbar glass" role="banner">
-    <a class="logo" href="index.html" aria-label="Testlik Ana Sayfa">🗳️ Testlik</a>
+    <a class="logo" href="index.html" aria-label="Testlik Ana Sayfa">
+      <span class="logo-emoji">🗳️</span> <span class="logo-text">Testlik</span>
+    </a>
     <nav class="topnav" aria-label="Ana menü">
       <a href="index.html" aria-current="page">Anketler</a>
       <a href="puan.html">Puanlarım</a>
@@ -71,11 +87,24 @@
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
-  <!-- HERO -->
+  <!-- HERO (animasyonlu dalga + parlayan CTA) -->
   <section class="hero fancy" role="region" aria-label="Hızlı başla">
-    <h1>Anket Çöz, Puan Kazan</h1>
-    <p>Butona tıkla, rastgele bir ankete ışınlan 🎯</p>
-    <button id="randomPoll" class="btn big pulse" aria-label="Rastgele anket çöz">📝 Anket Çöz – Puan Kazan</button>
+    <div class="glow"></div>
+    <div class="hero-inner">
+      <h1 class="title">Anket Çöz, <span class="spark">Puan Kazan</span></h1>
+      <p class="subtitle">Butona tıkla, rastgele bir ankete ışınlan 🎯</p>
+      <button id="randomPoll" class="btn cta pulse" aria-label="Rastgele anket çöz">📝 Anket Çöz – Puan Kazan</button>
+
+      <!-- Küçük metrikler (dummy, SEO’ya zarar vermez) -->
+      <div class="metrics">
+        <div class="metric"><strong id="m1">+0</strong><span>Aktif Anket</span></div>
+        <div class="metric"><strong id="m2">+0</strong><span>Günlük Oy</span></div>
+        <div class="metric"><strong id="m3">+0</strong><span>Kazanılan Puan</span></div>
+      </div>
+    </div>
+    <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,64L80,69.3C160,75,320,85,480,85.3C640,85,800,75,960,80C1120,85,1280,107,1360,117.3L1440,128L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path>
+    </svg>
   </section>
 
   <!-- İÇERİK + YAN REKLAMLAR -->
@@ -89,7 +118,7 @@
     </aside>
 
     <section class="grid-area" aria-label="Popüler anketler">
-      <h2 class="sr-only">Popüler Anketler</h2>
+      <h2 class="section-title">Popüler Anketler</h2>
       <div id="pollGrid" class="grid" role="list"></div>
     </section>
 
@@ -113,6 +142,7 @@
            data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
+
     <nav class="legal">
       <a href="privacy.html">Gizlilik</a><span>·</span>
       <a href="terms.html">Kullanım Şartları</a><span>·</span>
@@ -121,71 +151,73 @@
     <small>© <span id="yil"></span> Testlik</small>
   </footer>
 
-  <!-- Auth JS (Firebase hazırlandıktan sonra) -->
+  <!-- Auth (Giriş/Çıkış butonu) – dosyayı birazdan vereceğim -->
   <script type="module" src="js/auth.js"></script>
 
-  <!-- Sayfa içi JS: DOM yüklendikten sonra güvenli çalışır -->
+  <!-- Sayfa JS (rastgele anket + kartlar + küçük animasyon sayacı) -->
   <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      // © yıl
-      const yilEl = document.getElementById('yil');
-      if (yilEl) yilEl.textContent = new Date().getFullYear();
+  window.addEventListener('DOMContentLoaded', () => {
+    // yıl
+    const y = document.getElementById('yil'); if (y) y.textContent = new Date().getFullYear();
 
-      // Rastgele anket
-      const randBtn = document.getElementById('randomPoll');
-      if (randBtn) {
-        randBtn.addEventListener('click', async () => {
-          try {
-            const res  = await fetch('anketler.json', { cache: 'no-store' });
-            const list = res.ok ? await res.json() : [];
-            const items = Array.isArray(list) ? list.filter(x => x && x.link) : [];
-            const pick  = items.length ? items[Math.floor(Math.random()*items.length)].link
-                                       : 'anketler/anket-1.html';
-            location.href = pick;
-          } catch {
-            location.href = 'anketler/anket-1.html';
+    // rastgele anket
+    const randBtn = document.getElementById('randomPoll');
+    if (randBtn) {
+      randBtn.addEventListener('click', async () => {
+        try {
+          const res = await fetch('anketler.json', { cache: 'no-store' });
+          const list = res.ok ? await res.json() : [];
+          const items = Array.isArray(list) ? list.filter(x => x && x.link) : [];
+          const pick  = items.length ? items[Math.floor(Math.random()*items.length)].link : 'anketler/anket-1.html';
+          location.href = pick;
+        } catch { location.href = 'anketler/anket-1.html'; }
+      });
+    }
+
+    // popüler anketler + in-feed reklam (3 kartta bir)
+    const grid = document.getElementById('pollGrid');
+    if (grid) {
+      fetch('anketler.json').then(r => r.json()).then(list => {
+        (list || []).slice(0, 12).forEach((it, i) => {
+          if (!it?.link) return;
+          const a = document.createElement('a');
+          a.className = 'card tilt';
+          a.href = it.link;
+          a.setAttribute('role', 'listitem');
+          a.innerHTML = `
+            <div class="thumb"><img src="${it.image || 'assets/og-banner.jpg'}" alt="${it.title || 'Anket'}" loading="lazy" /></div>
+            <div class="card-body">
+              <h3>${it.title || 'Anket'}</h3>
+              <p>${it.desc || ''}</p>
+            </div>`;
+          grid.appendChild(a);
+
+          if ((i + 1) % 3 === 0) {
+            const ad = document.createElement('div');
+            ad.className = 'ad infeed';
+            ad.innerHTML = `
+              <ins class="adsbygoogle" style="display:block"
+                   data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+                   data-ad-slot="4567890123"
+                   data-ad-format="auto"
+                   data-full-width-responsive="true"></ins>`;
+            grid.appendChild(ad);
+            try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
           }
         });
-      }
+      }).catch(()=>{});
+    }
 
-      // Popüler anket kartları + içerik içi reklam
-      const grid = document.getElementById('pollGrid');
-      if (grid) {
-        fetch('anketler.json')
-          .then(r => r.json())
-          .then(list => {
-            (list || []).slice(0, 12).forEach((it, i) => {
-              if (!it?.link) return;
-              const card = document.createElement('a');
-              card.className = 'card tilt';
-              card.href = it.link;
-              card.setAttribute('role', 'listitem');
-              card.innerHTML = `
-                <img src="${it.image || 'assets/og-banner.jpg'}" alt="${it.title || 'Anket'}" loading="lazy" />
-                <div class="card-body">
-                  <h3>${it.title || 'Anket'}</h3>
-                  <p>${it.desc || ''}</p>
-                </div>`;
-              grid.appendChild(card);
-
-              // her 3 karttan sonra içerik içi reklam
-              if ((i + 1) % 3 === 0) {
-                const ad = document.createElement('div');
-                ad.className = 'ad infeed';
-                ad.innerHTML = `
-                  <ins class="adsbygoogle" style="display:block"
-                       data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
-                       data-ad-slot="4567890123"
-                       data-ad-format="auto"
-                       data-full-width-responsive="true"></ins>`;
-                grid.appendChild(ad);
-                try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
-              }
-            });
-          })
-          .catch(() => {});
-      }
-    });
+    // küçük sayaç animasyonları (sadece görsel)
+    const animateTo = (el, to) => {
+      if (!el) return;
+      let n = 0; const step = Math.ceil(to / 40);
+      const t = setInterval(() => { n += step; if (n >= to) { n = to; clearInterval(t); } el.textContent = '+' + n; }, 20);
+    };
+    animateTo(document.getElementById('m1'), 48);
+    animateTo(document.getElementById('m2'), 1260);
+    animateTo(document.getElementById('m3'), 8420);
+  });
   </script>
 </body>
 </html>
