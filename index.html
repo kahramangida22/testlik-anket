@@ -59,8 +59,20 @@
     };
   </script>
 
-  <!-- Stil dosyası (bir sonraki mesajda vereceğim) -->
+  <!-- Stil -->
   <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Çözülen kart rozetleri için küçük ek stil -->
+  <style>
+    .card.solved { opacity:.72; position:relative; }
+    .card .badge-solved{
+      position:absolute; top:8px; left:8px;
+      background: rgba(124,193,255,.14);
+      color:#7cc1ff; border:1px solid rgba(124,193,255,.4);
+      font-size:12px; font-weight:800; padding:4px 8px; border-radius:999px;
+      backdrop-filter: blur(6px);
+    }
+  </style>
 </head>
 <body>
   <!-- NAVBAR -->
@@ -95,7 +107,7 @@
       <p class="subtitle">Butona tıkla, rastgele bir ankete ışınlan 🎯</p>
       <button id="randomPoll" class="btn cta pulse" aria-label="Rastgele anket çöz">📝 Anket Çöz – Puan Kazan</button>
 
-      <!-- Küçük metrikler (dummy, SEO’ya zarar vermez) -->
+      <!-- Küçük metrikler (görsel amaçlı) -->
       <div class="metrics">
         <div class="metric"><strong id="m1">+0</strong><span>Aktif Anket</span></div>
         <div class="metric"><strong id="m2">+0</strong><span>Günlük Oy</span></div>
@@ -151,64 +163,21 @@
     <small>© <span id="yil"></span> Testlik</small>
   </footer>
 
-  <!-- Auth (Giriş/Çıkış butonu) – dosyayı birazdan vereceğim -->
+  <!-- Auth (Giriş/Çıkış butonu) -->
   <script type="module" src="js/auth.js"></script>
 
-  <!-- Sayfa JS (rastgele anket + kartlar + küçük animasyon sayacı) -->
-  <script>
-  window.addEventListener('DOMContentLoaded', () => {
-    // yıl
-    const y = document.getElementById('yil'); if (y) y.textContent = new Date().getFullYear();
+  <!-- Sayfa JS: çözülenleri filtreleyip rastgele anket, grid'de rozet -->
+  <script type="module">
+    import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js';
+    import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js';
 
-    // rastgele anket
-    const randBtn = document.getElementById('randomPoll');
-    if (randBtn) {
-      randBtn.addEventListener('click', async () => {
-        try {
-          const res = await fetch('anketler.json', { cache: 'no-store' });
-          const list = res.ok ? await res.json() : [];
-          const items = Array.isArray(list) ? list.filter(x => x && x.link) : [];
-          const pick  = items.length ? items[Math.floor(Math.random()*items.length)].link : 'anketler/anket-1.html';
-          location.href = pick;
-        } catch { location.href = 'anketler/anket-1.html'; }
-      });
-    }
+    const auth = window.fb?.auth;
+    const db   = window.fb?.db;
 
-    // popüler anketler + in-feed reklam (3 kartta bir)
-    const grid = document.getElementById('pollGrid');
-    if (grid) {
-      fetch('anketler.json').then(r => r.json()).then(list => {
-        (list || []).slice(0, 12).forEach((it, i) => {
-          if (!it?.link) return;
-          const a = document.createElement('a');
-          a.className = 'card tilt';
-          a.href = it.link;
-          a.setAttribute('role', 'listitem');
-          a.innerHTML = `
-            <div class="thumb"><img src="${it.image || 'assets/og-banner.jpg'}" alt="${it.title || 'Anket'}" loading="lazy" /></div>
-            <div class="card-body">
-              <h3>${it.title || 'Anket'}</h3>
-              <p>${it.desc || ''}</p>
-            </div>`;
-          grid.appendChild(a);
+    const yilEl = document.getElementById('yil');
+    if (yilEl) yilEl.textContent = new Date().getFullYear();
 
-          if ((i + 1) % 3 === 0) {
-            const ad = document.createElement('div');
-            ad.className = 'ad infeed';
-            ad.innerHTML = `
-              <ins class="adsbygoogle" style="display:block"
-                   data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
-                   data-ad-slot="4567890123"
-                   data-ad-format="auto"
-                   data-full-width-responsive="true"></ins>`;
-            grid.appendChild(ad);
-            try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
-          }
-        });
-      }).catch(()=>{});
-    }
-
-    // küçük sayaç animasyonları (sadece görsel)
+    // küçük sayaç animasyonları (görsel)
     const animateTo = (el, to) => {
       if (!el) return;
       let n = 0; const step = Math.ceil(to / 40);
@@ -217,7 +186,115 @@
     animateTo(document.getElementById('m1'), 48);
     animateTo(document.getElementById('m2'), 1260);
     animateTo(document.getElementById('m3'), 8420);
-  });
+
+    // yardımcılar
+    const normalize = (p) => {
+      if (!p) return '';
+      const s = String(p);
+      return s.startsWith('/') ? s : '/' + s;
+    };
+
+    async function fetchAllPolls() {
+      const res  = await fetch('anketler.json', { cache: 'no-store' });
+      const list = res.ok ? await res.json() : [];
+      return (Array.isArray(list) ? list : [])
+        .filter(x => x && x.link)
+        .map(x => ({ ...x, link: normalize(x.link) }));
+    }
+
+    async function fetchSolvedSet(uid) {
+      const solved = new Set();
+      if (!uid || !db) return solved;
+      const snap = await getDocs(collection(db, 'users', uid, 'votes'));
+      snap.forEach(d => {
+        const pid = normalize(d.data()?.pollId || decodeURIComponent(d.id));
+        solved.add(pid);
+      });
+      return solved;
+    }
+
+    function buildGrid(all, solved) {
+      const grid = document.getElementById('pollGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      all.slice(0, 12).forEach((it, i) => {
+        const a = document.createElement('a');
+        const isSolved = solved?.has?.(it.link);
+        a.className = 'card tilt' + (isSolved ? ' solved' : '');
+        a.href = it.link;
+        a.setAttribute('role', 'listitem');
+        a.innerHTML = `
+          <div class="thumb"><img src="${it.image || 'assets/og-banner.jpg'}" alt="${it.title || 'Anket'}" loading="lazy" /></div>
+          <div class="card-body">
+            <h3>${it.title || 'Anket'}</h3>
+            <p>${it.desc || ''}</p>
+          </div>
+          ${isSolved ? '<span class="badge-solved">✓ Çözüldü</span>' : ''}`;
+        grid.appendChild(a);
+
+        if ((i + 1) % 3 === 0) {
+          const ad = document.createElement('div');
+          ad.className = 'ad infeed';
+          ad.innerHTML = `
+            <ins class="adsbygoogle" style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+                 data-ad-slot="4567890123"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>`;
+          grid.appendChild(ad);
+          try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
+        }
+      });
+    }
+
+    async function pickUnsolvedAndGo(uid) {
+      const btn = document.getElementById('randomPoll');
+      if (btn) btn.disabled = true;
+
+      try {
+        const all = await fetchAllPolls();
+        let pool = all;
+
+        if (uid) {
+          const solved = await fetchSolvedSet(uid);
+          const unsolved = all.filter(it => !solved.has(it.link));
+          pool = unsolved.length ? unsolved : all;
+          if (!unsolved.length) {
+            try { alert('Tüm anketleri çözmüş görünüyorsun! Yine de rastgele bir anket açıyoruz.'); } catch {}
+          }
+        }
+
+        const pick = pool[Math.floor(Math.random() * pool.length)]?.link || '/anketler/anket-1.html';
+        location.href = pick;
+      } catch (e) {
+        console.error('randomPoll hata:', e);
+        location.href = '/anketler/anket-1.html';
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    // buton davranışı
+    document.getElementById('randomPoll')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const uid = auth?.currentUser?.uid || null;
+      pickUnsolvedAndGo(uid);
+    });
+
+    // sayfa yüklenince grid'i doldur; girişliyse çözülenlere rozet koy
+    (async () => {
+      const all = await fetchAllPolls();
+      const uid = auth?.currentUser?.uid || null;
+      const solved = uid ? await fetchSolvedSet(uid) : new Set();
+      buildGrid(all, solved);
+
+      // giriş durumu değişirse grid'i yeniden boya
+      onAuthStateChanged(auth, async (user) => {
+        const solved2 = user ? await fetchSolvedSet(user.uid) : new Set();
+        buildGrid(all, solved2);
+      });
+    })();
   </script>
 </body>
 </html>
