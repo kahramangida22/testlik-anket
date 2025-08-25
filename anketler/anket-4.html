@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>En çok hangi oyun türünü oynarsın? | Testlik</title>
+  <meta name="description" content="Aksiyon, FPS, RPG, Spor/Yarış mı, Strateji mi? Oyunu ver; giriş yaptıysan +10 puanı kap!" />
+  <link rel="canonical" href="https://testlik.com/anketler/anket-4.html" />
+  <meta property="og:title" content="En çok hangi oyun türünü oynarsın?" />
+  <meta property="og:description" content="Oy ver; puanı kap!" />
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="../assets/og-banner.jpg" />
+  <link rel="icon" href="../assets/logo.png" />
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  <!-- Firebase boot (ESM) -->
+  <script type="module">
+    import { initializeApp }   from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js';
+    import { getAnalytics }    from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js';
+    import { getAuth }         from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js';
+    import { getFirestore }    from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDcneigub2eAJjTrfrkiETuLgy5ule8L6s",
+      authDomain: "testlik.firebaseapp.com",
+      projectId: "testlik",
+      storageBucket: "testlik.firebasestorage.app",
+      messagingSenderId: "668524500496",
+      appId: "1:668524500496:web:579bb4fc5990c87afedc95",
+      measurementId: "G-8ZEYBJCV3T"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    window.fb = {
+      app,
+      analytics: getAnalytics(app),
+      auth: getAuth(app),
+      db: getFirestore(app)
+    };
+  </script>
+
+  <!-- Stiller -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/anket.css" />
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar glass" role="banner">
+    <a class="logo" href="../index.html" aria-label="Testlik Ana Sayfa">
+      <span class="logo-emoji">🗳️</span> <span class="logo-text">Testlik</span>
+    </a>
+    <nav class="topnav" aria-label="Ana menü">
+      <a href="../index.html">Anketler</a>
+      <a href="../puan.html">Puanlarım</a>
+      <a href="../oduller.html">Ödüller</a>
+    </nav>
+    <button id="authBtn" class="btn ghost" aria-label="Giriş Yap">Giriş</button>
+  </header>
+
+  <!-- Üst Reklam -->
+  <div class="ad ad-top" aria-label="Üst reklam">
+    <ins class="adsbygoogle"
+         style="display:block;text-align:center"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+         data-ad-slot="1234567890"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- ANKET -->
+  <main class="wrap poll-page" role="main">
+    <section class="grid-area" style="max-width:760px;margin:0 auto;">
+      <h1 class="poll-title">En çok hangi oyun türünü oynarsın?</h1>
+      <p class="poll-desc">Tek seçeneği işaretle ve oy ver. Giriş yaptıysan +10 puan!</p>
+
+      <div class="poll-card">
+        <form id="anketForm">
+          <div class="poll-options">
+            <label class="option">
+              <input type="radio" name="secim" value="Aksiyon/Macera" required />
+              <span class="option-label">Aksiyon / Macera</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="secim" value="FPS" required />
+              <span class="option-label">FPS (Nişancı)</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="secim" value="RPG" required />
+              <span class="option-label">RPG (Rol Yapma)</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="secim" value="Spor/Yarış" required />
+              <span class="option-label">Spor / Yarış</span>
+            </label>
+
+            <label class="option">
+              <input type="radio" name="secim" value="Strateji" required />
+              <span class="option-label">Strateji</span>
+            </label>
+          </div>
+
+          <div class="cta-row cta-sticky">
+            <button type="submit" class="btn cta">Oy Ver ve 10 Puan Kazan</button>
+          </div>
+
+          <p class="helper">Not: Aynı ankete yalnızca 1 kez puan verilir (AdSense uyumlu).</p>
+        </form>
+      </div>
+
+      <!-- İçerik içi reklam -->
+      <div class="ad">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+             data-ad-slot="4567890123"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </section>
+  </main>
+
+  <!-- Alt Reklam -->
+  <footer class="footer">
+    <div class="ad ad-footer">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+           data-ad-slot="3456789012"
+           data-ad-format="link"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    <nav class="legal">
+      <a href="../privacy.html">Gizlilik</a><span>·</span>
+      <a href="../terms.html">Kullanım Şartları</a><span>·</span>
+      <a href="../contact.html">İletişim</a>
+    </nav>
+    <small>© <span id="yil"></span> Testlik</small>
+  </footer>
+
+  <!-- Auth (Giriş/Çıkış) -->
+  <script type="module" src="../js/auth.js"></script>
+
+  <!-- Oy verince Firestore’a puan yaz -->
+  <script type="module">
+    import { awardPointsForPoll } from '../js/puan.js';
+
+    const y = document.getElementById('yil'); if (y) y.textContent = new Date().getFullYear();
+
+    document.getElementById('anketForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await awardPointsForPoll(location.pathname, 10);
+    });
+  </script>
+</body>
+</html>
