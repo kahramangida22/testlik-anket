@@ -11,11 +11,28 @@
     "image": "assets/og-banner.jpg",
     "link": "anketler/anket-2.html"
   },
-{
-  "title": "En sevdiğin mevsim hangisi?",
-  "desc": "İlkbahar mı, yaz mı, sonbahar mı, kış mı? Oy ver; +10 puan kazan!",
-  "image": "assets/og-banner.jpg",
-  "link": "anketler/anket-3.html"
-}
+  {
+    "title": "En sevdiğin mevsim hangisi?",
+    "desc": "İlkbahar mı, yaz mı, sonbahar mı, kış mı? Oy ver; +10 puan!",
+    "image": "assets/og-banner.jpg",
+    "link": "anketler/anket-3.html"
+  },
+  {
+    "title": "En çok hangi oyun türünü oynarsın?",
+    "desc": "Aksiyon/Macera, FPS, RPG, Spor/Yarış, Strateji… Oy ver; +10 puan!",
+    "image": "assets/og-banner.jpg",
+    "link": "anketler/anket-4.html"
+  },
+  {
+    "title": "En çok hangi sosyal medya uygulamasını kullanıyorsun?",
+    "desc": "Instagram, TikTok, YouTube, X (Twitter), Facebook… Oy ver; +10 puan!",
+    "image": "assets/og-banner.jpg",
+    "link": "anketler/anket-5.html"
+  },
+  {
+    "title": "Tatil için hangisini tercih edersin?",
+    "desc": "Deniz & Kumsal, Doğa & Kamp, Şehir Turu, Kayak/Tatil Köyü… Oy ver; +10 puan!",
+    "image": "assets/og-banner.jpg",
+    "link": "anketler/anket-6.html"
+  }
 ]
-  
